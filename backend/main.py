@@ -13,13 +13,13 @@ app.add_middleware(
     allow_methods = ["*"],
 )
 
-@app.get("/", tags=["Get"])
+@app.get("/machines/get", tags=["Get"])
 def get_data():
     machines = get_data_from_network(ip_address="192.168.1.0", debugging=True)
     print(machines)
     machines_to_json = []
     for machine in machines:
-        machines.append(machine.toJson())
+        machines_to_json.append(machine.to_dict())
 
-    return JSONResponse(content={"machines" : machines}, status_code=201)
+    return JSONResponse(content={"machines" : machines_to_json}, status_code=201)
 
