@@ -20,9 +20,10 @@ export class AppComponent implements OnInit {
   machinesInformations: Array<machineModel> = [];
   tempsModalIsViewMode: boolean = false;
   miTemps: Array<number> = [];
+  ipAddress: string = "192.168.1.1"
 
   ngOnInit(): void {
-    this.getMachineInformations();
+    this.getMachineInformations(this.ipAddress);
   }
 
   toggleTempsModalIsViewMode() {
@@ -33,8 +34,8 @@ export class AppComponent implements OnInit {
     this.miTemps = mi.Temps;
   }
 
-  getMachineInformations() {
-    this.mis.getMachineInformations().subscribe({
+  getMachineInformations(ipAddress: string) {
+    this.mis.getMachineInformations(ipAddress).subscribe({
       next: (result) => {
         this.machinesInformations = result;
         console.log(this.machinesInformations);
