@@ -1,13 +1,16 @@
 import json
-import socket
+import ping3
 import subprocess
 
+from getmac import get_mac_address
 from mining_machine import MiningMachine
 
-machines = [MiningMachine(ip_address="ip_to_try", hostname="hostname", mac="mac", temps=["a"], hash_rates=["s"])]
+def get_data_from_network(ip_address: str, debugging: bool | None) -> list:
+    machines = [MiningMachine(ip_address="ip_to_try", hostname="hostname", mac="mac", temps=["a"], hash_rates=["s"])]
 
-def ping(ip_address: str):
-    machines.clear()
+    if(debugging):
+        return machines
+
     if "." not in ip_address:
         print("Wrong IP -> You didn't set any dot.")
         return
@@ -64,12 +67,6 @@ def ping(ip_address: str):
 
         machines.append(MiningMachine(ip_address=ip_to_try, hostname=hostname, mac=mac, temps=temps, hash_rates=hash_rates))
         print(message)
+    
+    return machines
 
-app = Flask("app")
-
-@app.get("/")
-def prueba():
-    ping(ip_address="192.168.1.1")
-    return render_template("index.html", machines=machines)
-
-app.run(port=5000, debug=True)
