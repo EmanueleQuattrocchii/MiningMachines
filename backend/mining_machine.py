@@ -6,19 +6,20 @@ class MiningMachine:
     serial_number: str
     hash_rates: list
     mac: str
-    active_worker: str
+    in_temps: list
+    out_temps: list
     temps: list
+    hash_rates: list
+    serial_number: str | None
+    active_worker: str | None
 
-    def __init__(self,hostname: str,
-    ip_address: str,
-    serial_number: str,
-    hash_rates: list,
-    mac: str,
-    active_worker: str,
-    temps: list,) -> None:
-        self.hostname = hostname
+    def __init__(self, ip_address: str, hostname: str, mac: str, in_temps: list, out_temps: list, temps: list, hash_rates: list) -> None:
         self.ip_address = ip_address
-        self.serial_number = ""
+        self.hostname = hostname
+        self.mac = mac
+        self.in_temps = in_temps
+        self.out_temps = out_temps
+        self.temps = temps
         self.hash_rates = hash_rates
         self.mac = mac
         self.active_worker = ""
@@ -29,6 +30,8 @@ class MiningMachine:
             "ip_address": self.ip_address,
             "hostname": self.hostname,
             "mac": self.mac,
+            "in_temps": self.in_temps,
+            "out_temps": self.out_temps,
             "temps": self.temps,
             "hash_rates": self.hash_rates,
             "serial_number": self.serial_number,
