@@ -14,8 +14,8 @@ app.add_middleware(
 )
 
 @app.get("/machines/get", tags=["Get"])
-def get_data():
-    machines = get_data_from_network(ip_address="192.168.1.0", debugging=True)
+def get_data(ip_address: str):
+    machines = get_data_from_network(ip_address=ip_address, debugging=not True)
     print(machines)
     machines_to_json = []
     for machine in machines:
