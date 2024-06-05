@@ -1,10 +1,12 @@
 import json
-import socket
 import subprocess
+from flask import Flask, render_template
+import ping3
 
+from getmac import get_mac_address
 from mining_machine import MiningMachine
 
-machines = [MiningMachine(ip_address="ip_to_try", hostname="hostname", mac="mac", temps=["a"], hash_rates=["s"])]
+machines = [MiningMachine(hostname="", ip_address="", SerialNumber="", hash_rates=[""], mac="", ActiveWorker="", temps=[""])]
 
 def ping(ip_address: str):
     machines.clear()

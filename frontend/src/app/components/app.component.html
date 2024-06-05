@@ -1,4 +1,4 @@
-<div class="table">
+<div class="table" *ngIf="machinesInformations != []">
   <div class="thead">
     <div class="tr">
       <div class="th">Name</div>
@@ -11,15 +11,15 @@
       <div class="th">Actions</div>
     </div>
   </div>
-  <div class="tbody">
+  <div class="tbody" *ngFor="let mi of machinesInformations">
     <div class="tr">
-      <div class="td"></div>
-      <div class="td"></div>
-      <div class="td"></div>
-      <div class="td"></div>
-      <div class="td"></div>
-      <div class="td"></div>
-      <div class="td"></div>
+      <div class="td">{{ mi.Name }}</div>
+      <div class="td">{{ mi.IPAddress }}</div>
+      <div class="td">{{ mi.ActiveWorker }}</div>
+      <div class="td">{{ mi.SerialNumber }}</div>
+      <div class="td">{{ mi.MACAddress }}</div>
+      <div class="td">{{ mi.HashRate }}</div>
+      <div class="td">{{ mi.Temps }}</div>
       <div class="td"></div>
     </div>
   </div>
