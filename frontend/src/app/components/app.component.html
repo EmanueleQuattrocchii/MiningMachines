@@ -1,4 +1,4 @@
-<div class="table" *ngIf="machinesInformations != []">
+<div class="table" *ngIf="machinesInformations.length > 0">
   <div class="thead">
     <div class="tr">
       <div class="th">Name</div>
@@ -8,7 +8,7 @@
       <div class="th">MAC Address</div>
       <div class="th">Hash Rate</div>
       <div class="th">Temps</div>
-      <div class="th">Actions</div>
+      <div class="th"></div>
     </div>
   </div>
   <div class="tbody" *ngFor="let mi of machinesInformations">
@@ -19,8 +19,36 @@
       <div class="td">{{ mi.SerialNumber }}</div>
       <div class="td">{{ mi.MACAddress }}</div>
       <div class="td">{{ mi.HashRate }}</div>
-      <div class="td">{{ mi.Temps }}</div>
-      <div class="td"></div>
+      <div class="td"><button (click)="showTemps(mi)" (click)="toggleTempsModalIsViewMode()">Show Temps</button></div>
+      <div class="td">
+        <div class="select-actions">
+          <select name="actions" id="actions">
+            <option value="Restart">Restart</option>
+            <option value="Change-Pool">Change Pool</option>
+            <option value="Edit">Edit</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" tabindex="-1" *ngIf="tempsModalIsViewMode == true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Temps</h5>
+      </div>
+      <div class="modal-body">
+        <div class="temps-container">
+          <div class="temp" *ngFor="let t of miTemps">
+            {{ t }}
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="toggleTempsModalIsViewMode()">Close</button>
+      </div>
     </div>
   </div>
 </div>

@@ -11,7 +11,7 @@ def get_data_from_network(ip_address: str, debugging: bool) -> list:
     machines = []
 
     if(debugging):
-        machines.append(MiningMachine(ip_address="ip_to_try", hostname="hostname", mac="mac", temps=["a"], hash_rates=["s"]))
+        machines.append(MiningMachine(serial_number="", active_worker="",ip_address="ip_to_try", hostname="hostname", mac="mac", temps=["a"], hash_rates=["s"]))
         return machines
 
     if "." not in ip_address:
@@ -36,7 +36,7 @@ def get_data_from_network(ip_address: str, debugging: bool) -> list:
 
     for i in range(1, 20):
         ip_to_try = f"{network_to_str}.{i}"
-        response = ping3.ping(dest_addr=ip_to_try, timeout=1, unit="s")
+        response = ping3.ping(dest_addr=ip_to_try, timeout=0.5, unit="s")
 
         if response == None or response == False:
             message = f"Don't getting any response from '{ip_to_try}'"
@@ -68,7 +68,7 @@ def get_data_from_network(ip_address: str, debugging: bool) -> list:
             temps.append(board["intmp"])
             hash_rates.append(board["rtpow"])
 
-        machines.append(MiningMachine(ip_address=ip_to_try, hostname=hostname, mac=mac, temps=temps, hash_rates=hash_rates))
+        machines.append(MiningMachine(serial_number="", active_worker="",ip_address=ip_to_try, hostname=hostname, mac=mac, temps=temps, hash_rates=hash_rates))
         print(message)
     
     return machines

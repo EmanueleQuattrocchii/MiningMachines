@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { machineModel } from "../models/machineModel";
 import { Observable } from "rxjs";
@@ -9,9 +9,9 @@ import { Observable } from "rxjs";
 
 export class machineInformationsService{
 
-    constructor(private http: HttpClient, private as: machineInformationsService) {}
+    constructor(private http: HttpClient) {}
 
     getMachineInformations() : Observable<Array<machineModel>> {
-        return this.http.get<Array<machineModel>>("http://localhost:5000/")
+        return this.http.get<Array<machineModel>>("http://127.0.0.1:8000/machines/get")
     }  
 }

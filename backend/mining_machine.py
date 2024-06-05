@@ -3,24 +3,25 @@ import json
 class MiningMachine:
     hostname: str
     ip_address: str
-    SerialNumber: str
+    serial_number: str
     hash_rates: list
     mac: str
-    ActiveWorker: str
+    active_worker: str
     temps: list
 
     def __init__(self,hostname: str,
     ip_address: str,
-    SerialNumber: str,
+    serial_number: str,
     hash_rates: list,
     mac: str,
-    ActiveWorker: str,
+    active_worker: str,
     temps: list,) -> None:
+        self.hostname = hostname
         self.ip_address = ip_address
-        self.SerialNumber = ""
+        self.serial_number = ""
         self.hash_rates = hash_rates
         self.mac = mac
-        self.ActiveWorker = ""
+        self.active_worker = ""
         self.temps = temps
 
     def to_dict(self) -> dict:
