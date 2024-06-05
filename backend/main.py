@@ -13,7 +13,7 @@ app.add_middleware(
     allow_methods = ["*"],
 )
 
-@app.get("/", tags=["Get"])
+@app.get("/machines/get", tags=["Get"])
 def get_data():
     machines = get_data_from_network(ip_address="192.168.1.0", debugging=True)
     print(machines)
