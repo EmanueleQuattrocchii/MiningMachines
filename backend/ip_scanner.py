@@ -5,10 +5,26 @@ import subprocess
 from getmac import get_mac_address
 from mining_machine import MiningMachine
 
-def get_data_from_network(ip_address: str, debugging: bool) -> list:
+def is_ip_correct(ip_address: str) -> bool:
+    if "." not in ip_address:
+        return False
+    elif len(ip_address.split(".")) != 4:
+        return False
+    
+    network = ip_address.split(".")[:3]
+
+    for num in network:
+        try:
+            if (int(num) < 0 or int(num) > 255):
+                return False
+        except ValueError:
+             return False
+    return True
+
+def get_data_from_network(ip_address: str, debugging: bool) -> list[MiningMachine] | list[str]:
     machines = []
 
-    if(debugging):
+    if debugging:
         machines.append(
             MiningMachine(
                 ip_address="ip",
@@ -25,67 +41,61 @@ def get_data_from_network(ip_address: str, debugging: bool) -> list:
                     )
                 )
         return machines
-
-    if "." not in ip_address:
-        print("Wrong IP -> You didn't set any dot.")
-        return
-    elif len(ip_address.split(".")) != 4:
-        print("Wrong IP -> The IP must have 4 numbers separated by dots.")
-        return
     
-    network = ip_address.split(".")[:3]
+    if not is_ip_correct(ip_address=ip_address):
+        return [f"{ip_address} is an invalid IP"]
 
-    for num in network:
-        try:
-            if (int(num) < 0 or int(num) > 255):
-                print("Wrong IP -> The IP cannot have numbers < 0 or > 255")
-                return 
-        except ValueError:
-             print("Wrong IP -> The IP must have 4 numbers separated by dots.")
-             return
-
+    network: list[str] = ip_address.split(".")
+    network.pop()
     network_to_str = ".".join(network)
 
-    for i in range(1, 10):
+    for i in range(1, 11):
+        in_temps = []
+        out_temps = []
+        hash_rates = []
+        temps = []
+
         ip_to_try = f"{network_to_str}.{i}"
         ping_response = ping3.ping(dest_addr=ip_to_try, timeout=1, unit="s")
+        mac = get_mac_address(ip=ip_to_try)
 
         print(f"Trying with {ip_to_try}")
+
         if(type(ping_response) == float):
             message = f"Took {ping_response:.2f} ms to get a response from '{ip_to_try}'"
-        mac = get_mac_address(ip=ip_to_try)
         
         # Getting hostname
-        command = " ".join(["""echo '{"id":"info"}'""", "|", f"ncat.exe {ip_to_try} 4111"])
+        command = " ".join(["""echo '{"id":"info"}'""", "|", f"ncat {ip_to_try} 4111"])
         result = subprocess.run(["powershell.exe", command], capture_output=True, text=True)
         if result.returncode != 0:
+            print("Continued 1")
             continue
+
         hostname = json.loads(result.stdout)["ret"]["softver1"]
 
-        # Getting temperatures & hash rates
-        command_2 = " ".join(["""echo '{"id":"board"}'""", "|", f"ncat.exe {ip_to_try} 4111"])
+        # Getting in/out temperatures & hash rates
+        command_2 = " ".join(["""echo '{"id":"board"}'""", "|", f"ncat {ip_to_try} 4111"])
         result_2 = subprocess.run(["powershell.exe", command_2], capture_output=True, text=True)
         if result_2.returncode != 0:
+            print("Continued 2")
             continue
 
         result_2_dict =  json.loads(result_2.stdout)
         boards = result_2_dict["ret"]["boards"]
-        in_temps = []
-        out_temps = []
-        hash_rates = []
-
+        
         for board in boards:
             in_temps.append(board["intmp"])
             out_temps.append(board["outtmp"])
             hash_rates.append(board["rtpow"])
 
-        command_3 = " ".join(["""echo '{"id":"getchipinfo"}'""", "|", f"ncat.exe {ip_to_try} 4111"])
+        # Getting temperatures 
+        command_3 = " ".join(["""echo '{"id":"getchipinfo"}'""", "|", f"ncat {ip_to_try} 4111"])
         result_3 = subprocess.run(["powershell.exe", command_3], capture_output=True, text=True)
         if result_3.returncode != 0:
+            print("Continued 3")
             continue
         
         chips = json.loads(result_3.stdout)["ret"]["chips"]
-        temps = []
 
         for chip in chips:
             temps.append(chip["temp"])
