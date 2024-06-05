@@ -18,9 +18,13 @@ class MiningMachine:
         self.serial_number = ""
         self.active_worker = ""
 
-    def toJSON(self):
-        return json.dumps(
-            self,
-            default=lambda o: o.__dict__,
-            indent=2
-        )
+    def to_dict(self) -> dict:
+        return {
+            "ip_address": self.ip_address,
+            "hostname": self.hostname,
+            "mac": self.mac,
+            "temps": self.temps,
+            "hash_rates": self.hash_rates,
+            "serial_number": self.serial_number,
+            "active_worker": self.active_worker,
+        }

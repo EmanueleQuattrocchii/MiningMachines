@@ -19,7 +19,7 @@ def get_data():
     print(machines)
     machines_to_json = []
     for machine in machines:
-        machines.append(machine.toJson())
+        machines_to_json.append(machine.to_dict())
 
-    return JSONResponse(content={"machines" : machines}, status_code=201)
+    return JSONResponse(content={"machines" : machines_to_json}, status_code=201)
 

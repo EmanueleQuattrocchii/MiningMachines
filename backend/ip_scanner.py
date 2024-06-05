@@ -5,7 +5,7 @@ import subprocess
 from getmac import get_mac_address
 from mining_machine import MiningMachine
 
-def get_data_from_network(ip_address: str, debugging: bool | None) -> list:
+def get_data_from_network(ip_address: str, debugging: bool) -> list:
     machines = [MiningMachine(ip_address="ip_to_try", hostname="hostname", mac="mac", temps=["a"], hash_rates=["s"])]
 
     if(debugging):
