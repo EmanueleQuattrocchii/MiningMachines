@@ -58,7 +58,7 @@ def get_data_from_network(ip_address: str, debugging: bool) -> list[MiningMachin
         temps = []
 
         ip_to_try = f"{network_to_str}.{i}"
-        ping_response = ping3.ping(dest_addr=ip_to_try, timeout=1, unit="s")
+        ping_response = ping3.ping(dest_addr=ip_to_try, timeout=0.5, unit="s")
         mac = get_mac_address(ip=ip_to_try)
 
         print(f"Trying with {ip_to_try}")

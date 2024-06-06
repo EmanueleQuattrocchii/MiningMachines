@@ -14,15 +14,16 @@ import { HttpClientModule } from '@angular/common/http';
 })
 
 export class AppComponent implements OnInit {
-
   constructor(public mis: machineInformationsService) { }
-
+  
+  title: string = "frontend";
   machinesInformations: Array<machineModel> = [];
   tempsModalIsViewMode: boolean = false;
   miTemps: Array<number> = [];
   ipAddress: string = "192.168.1.1"
 
   ngOnInit(): void {
+    console.log(this.machinesInformations);
     this.getMachineInformations(this.ipAddress);
   }
 
@@ -31,13 +32,16 @@ export class AppComponent implements OnInit {
   }
   
   showTemps(mi: machineModel) {
-    this.miTemps = mi.Temps;
+    this.miTemps = mi.temps;
   }
 
   getMachineInformations(ipAddress: string) {
     this.mis.getMachineInformations(ipAddress).subscribe({
       next: (result) => {
-        this.machinesInformations = result;
+        console.log(result)
+        console.log(result.get("machines"))
+        console.log(typeof result)
+        result.forEach((m) => this.machinesInformations.push(machineModel.mapper(m)));
         console.log(this.machinesInformations);
       },
       error: (error) => {

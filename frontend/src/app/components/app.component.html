@@ -13,13 +13,13 @@
   </div>
   <div class="tbody" *ngFor="let mi of machinesInformations">
     <div class="tr">
-      <div class="td">{{ mi.Name }}</div>
-      <div class="td">{{ mi.IPAddress }}</div>
-      <div class="td">{{ mi.ActiveWorker }}</div>
-      <div class="td">{{ mi.SerialNumber }}</div>
-      <div class="td">{{ mi.MACAddress }}</div>
-      <div class="td">{{ mi.HashRate }}</div>
-      <div class="td"><button (click)="showTemps(mi)" (click)="toggleTempsModalIsViewMode()">Show Temps</button></div>
+      <div class="td">{{ mi.hostname }}</div>
+      <div class="td">{{ mi.ip_address }}</div>
+      <div class="td">{{ mi.active_worker }}</div>
+      <div class="td">{{ mi.serial_number }}</div>
+      <div class="td">{{ mi.mac }}</div>
+      <div class="td">{{ mi.hash_rates }}</div>
+      <div class="td"><button (click)="toggleTempsModalIsViewMode(); showTemps(mi)">Show Temps</button></div>
       <div class="td">
         <div class="select-actions">
           <select name="actions" id="actions">
